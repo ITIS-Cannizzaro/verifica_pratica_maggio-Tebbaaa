@@ -39,7 +39,8 @@ public class parte_1 extends JFrame {
 		P.add(Rimuovi);
 		P.add(Visualizza);
 		
-	}
+	}/* i metodi Aggiungi(), Rimuovi(), e Visualizza() richiedono un parametro di tipo int, ma non viene passato alcun valore quando questi metodi sono chiamati.
+	Inolte, non aggiornano la JTextArea in Output. */
 		
 	public void Aggiungi(int num) {
 		numeri.add(num);
@@ -81,3 +82,4 @@ public class parte_1 extends JFrame {
 		}
 	}
 }
+// il codice non è eseguibile perchè manca la classe main principale
