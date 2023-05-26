@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class parte_1 extends JFrame {
+public class parte_1 extends JFrame implements ActionListener {
 	
 	private ArrayList<Integer> numeri;
 	private JTextArea Output;
@@ -13,73 +13,87 @@ public class parte_1 extends JFrame {
 
 	public parte_1() {
 		
-		numeri = new ArrayList <>();
+		numeri = new ArrayList<>();
 		
 		setTitle("Verifica_GUI");
-		setSize(300,200);
+		setSize(600,500);
 		setLayout(new BorderLayout());
 		
 		Output = new JTextArea();
 		
-		JPanel P = new JPanel(new FlowLayout());
-		JLabel J = new JLabel("Numeri: ");
+		JPanel Panel = new JPanel(new FlowLayout());
+		JLabel Label = new JLabel("Numeri: ");
 		Input = new JTextField(10);
 		JButton Aggiungi = new JButton("Aggiungi");
 		JButton Rimuovi = new JButton("Rimuovi");
 		JButton Visualizza = new JButton("Visualizza");	
 		
-		Aggiungi.addActionListener(new Listener());
-		Rimuovi.addActionListener(new Listener());
-		Visualizza.addActionListener(new Listener());
+		Aggiungi.addActionListener(e -> Aggiungi());
+		Rimuovi.addActionListener(e -> Rimuovi());
+		Visualizza.addActionListener(e -> Visualizza());
 	
-		P.add(J);
-		P.add(Input);
-		P.add(Output);
-		P.add(Aggiungi);
-		P.add(Rimuovi);
-		P.add(Visualizza);
-		
-	}/* i metodi Aggiungi(), Rimuovi(), e Visualizza() richiedono un parametro di tipo int, ma non viene passato alcun valore quando questi metodi sono chiamati.
-	Inolte, non aggiornano la JTextArea in Output. */
-		
-	public void Aggiungi(int num) {
-		numeri.add(num);
+		Panel.add(Label);
+		Panel.add(Input);
+		Panel.add(Output);
+		Panel.add(Aggiungi);
+		Panel.add(Rimuovi);
+		Panel.add(Visualizza);
+		add(Panel, BorderLayout.NORTH);
+	}
+	
+	public void Aggiungi() {
+		String num=Input.getText();
+		int n= Integer.parseInt(num);
+		numeri.add(n);
 		for(int i = 0; i<numeri.size(); i++) {
-			if (numeri.get(i)==num) {
-				i = num;
+			for(int j = 1; j<numeri.size(); j++) {
+			int h=(int)numeri.get(i);
+			if (h>n) {
+				int temp=numeri.get(i);
+				numeri.set(i, n);
+				numeri.set(j, temp);
 			}
 		}
 		System.out.println(numeri);
-	}
-	
-	private void Rimuovi(int num) {
-		for(int i = 0; i<numeri.size(); i++) {
-			if (numeri.get(i)==num) {
-				num = 0;
-			}
-		}
-		System.out.println(numeri);
-	}
-	
-	private void Visualizza(int num) {
-		System.out.println(numeri);
-	}
-	
-	public class Listener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource()==Aggiungi()) {
-				Aggiungi();
-			}
-			
-			if(e.getSource()==Rimuovi()) {
-				Rimuovi();
-			}
-			
-			if(e.getSource()==Visualizza()) {
-				Visualizza();
-			}
 		}
 	}
-}
-// il codice non è eseguibile perchè manca la classe main principale
+	
+	private void Rimuovi() {
+		String num=Input.getText();
+		int n= Integer.parseInt(num);
+		for (int i=0; i<numeri.size(); i++ ) {
+			if (i == n) {
+			numeri.remove(i);
+			}
+		System.out.println(numeri);
+		}	
+	}
+	
+	private void Visualizza() {
+		Output.setText(numeri.toString());
+	}
+	
+	public static void main(String[] args) {
+		parte_1 frame = new parte_1();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource().equals("Aggiungi")) {
+			int num = Integer.parseInt(Input.getText());
+			Aggiungi();
+		}
+		
+		if(e.getSource().equals("Rimuovi")) {
+			int num = Integer.parseInt(Input.getText());
+			Rimuovi();
+		}
+		
+		if(e.getSource().equals("Visualizza")) {
+			Visualizza();
+		}
+	}
+		
+	}
